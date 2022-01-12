@@ -25,6 +25,7 @@ public class Transformer extends Writer {
         df = cleanData(df);
         df = rangeAge(df);
         df = rankByNationalityPosition(df);
+        df = potentialVsOverall(df);
         df = columnSelection(df);
 
         // for show 100 records after your transformations and show the Dataset schema
@@ -48,7 +49,8 @@ public class Transformer extends Writer {
                 potential.column(),
                 teamPosition.column(),
                 ageRange.column(),
-                rankNationalityPostionByOverall.column()
+                rankNationalityPostionByOverall.column(),
+                potentialVsOverall.column()
         );
     }
 
@@ -139,6 +141,17 @@ public class Transformer extends Writer {
 
         df = df.withColumn(rankNationalityPostionByOverall.getName(), rank);
 
+        return df;
+    }
+
+    /**
+     * @param df is a Dataset with players information (must have potential and overall columns)
+     * @return add to the Dataset the column "potential_vs_overall"
+     * calculates the potential/overall
+     */
+    private Dataset<Row> potentialVsOverall(Dataset<Row> df) {
+        Column rule = potential.column().divide(overall.column());
+        df = df.withColumn(potentialVsOverall.getName(), rule);
         return df;
     }
 
