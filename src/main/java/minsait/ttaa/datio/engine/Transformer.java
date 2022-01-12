@@ -36,7 +36,7 @@ public class Transformer extends Writer {
         // for show 100 records after your transformations and show the Dataset schema
         df.show(100, false);
         df.printSchema();
-
+        df.show(Integer.MAX_VALUE, false);
         // Uncomment when you want write your final output
         //write(df, spark.conf().get(OUTPUT_PATH));
     }
