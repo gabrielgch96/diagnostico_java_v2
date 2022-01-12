@@ -24,6 +24,7 @@ public class Transformer extends Writer {
 
         df = cleanData(df);
         df = rangeAge(df);
+        df = rankByNationalityPosition(df);
         df = columnSelection(df);
 
         // for show 100 records after your transformations and show the Dataset schema
@@ -46,7 +47,8 @@ public class Transformer extends Writer {
                 overall.column(),
                 potential.column(),
                 teamPosition.column(),
-                ageRange.column()
+                ageRange.column(),
+                rankNationalityPostionByOverall.column()
         );
     }
 
@@ -119,6 +121,23 @@ public class Transformer extends Writer {
                 .otherwise("D");
 
         df = df.withColumn(ageRange.getName(), rule);
+
+        return df;
+    }
+
+    /**
+     * @param df is a Dataset with players information (must have nationality, teamPosition and overall columns)
+     * @return add to the Dataset the column "rank_by_nationality_position"
+     * ranks players by nationality and position according to overall stat
+     */
+    private Dataset<Row> rankByNationalityPosition(Dataset<Row> df) {
+        WindowSpec w = Window
+                .partitionBy(nationality.column(), teamPosition.column())
+                .orderBy(overall.column().desc());
+
+        Column rank = row_number().over(w);
+
+        df = df.withColumn(rankNationalityPostionByOverall.getName(), rank);
 
         return df;
     }
