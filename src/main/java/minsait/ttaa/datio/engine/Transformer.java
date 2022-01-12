@@ -38,7 +38,7 @@ public class Transformer extends Writer {
         df.printSchema();
 
         // Uncomment when you want write your final output
-        //write(df);
+        //write(df, spark.conf().get(OUTPUT_PATH));
     }
 
     private Dataset<Row> columnSelection(Dataset<Row> df) {
@@ -66,7 +66,7 @@ public class Transformer extends Writer {
         Dataset<Row> df = spark.read()
                 .option(HEADER, true)
                 .option(INFER_SCHEMA, true)
-                .csv(INPUT_PATH);
+                .csv(spark.conf().get(INPUT_PATH));
         return df;
     }
 
