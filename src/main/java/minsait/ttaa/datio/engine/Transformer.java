@@ -26,6 +26,7 @@ public class Transformer extends Writer {
         df = rangeAge(df);
         df = rankByNationalityPosition(df);
         df = potentialVsOverall(df);
+        df = filter(df);
         df = columnSelection(df);
 
         // for show 100 records after your transformations and show the Dataset schema
@@ -155,5 +156,34 @@ public class Transformer extends Writer {
         return df;
     }
 
+    /**
+     * @param df is a Dataset with players information (must have age_range, rank_by_nationality_position
+     *           and potential_vs_overall columns)
+     * @return a filtered Dataset with the following conditions:
+     * rank_by_nationality_position < 3
+     * age_range in [B, C] and potential_vs_overall > 1.15
+     * age_range equals A and potential_vs_overall > 1.25
+     * age_range equals D and rank_by_nationality_position < 5
+     */
+    public Dataset<Row> filter(Dataset<Row> df) {
+        Column ageCat = ageRange.column();
+        Column potentialVSOverall = potentialVsOverall.column();
+        Column nationalityPosRank = rankNationalityPostionByOverall.column();
+
+        Column rankCondition = nationalityPosRank.$less(3);
+        Column ageRangeBorCAndPontentialVsOverallSup115 =
+                ageCat.isin("A", "B").and(potentialVSOverall.$greater(1.15));
+        Column ageEqAAndPotentialVsOverallSup125 =
+                ageCat.$eq$eq$eq("A").and(potentialVSOverall.$greater(1.25));
+        Column ageEqDAndRankByNationalityPositionLessThan5 =
+                ageCat.$eq$eq$eq("D").and(nationalityPosRank.$less(5));
+
+        return df.filter(
+                rankCondition
+                        .or(ageRangeBorCAndPontentialVsOverallSup115)
+                        .or(ageEqAAndPotentialVsOverallSup125)
+                        .or(ageEqDAndRankByNationalityPositionLessThan5)
+        );
+    }
 
 }
