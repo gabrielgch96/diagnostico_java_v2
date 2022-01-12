@@ -16,6 +16,10 @@ import static org.apache.spark.sql.functions.*;
 public class Transformer extends Writer {
     private SparkSession spark;
 
+    public Transformer() {
+
+    }
+
     public Transformer(@NotNull SparkSession spark) {
         this.spark = spark;
         Dataset<Row> df = readInput();

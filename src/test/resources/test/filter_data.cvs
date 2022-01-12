@@ -1,0 +1,9 @@
+short_name,long_name,age,height_cm,weight_kg,nationality,club_name,overall,potential,team_position,age_range,potential_vs_overall,rank_by_nationality_position
+M. Kovačić,MateoKovačić,26,176,80,Croatia,Chelsea,83,86,SUB,F,1.036144578313253,4
+M. Kovačić,MateoKovačić,26,176,80,Croatia,Chelsea,83,86,SUB,F,0,2
+I. Perišić,IvanPerišić,31,186,80,Croatia,Inter,82,82,SUB,C,1.16,14
+I. Perišić,IvanPerišić,31,186,80,Croatia,Inter,82,82,SUB,C,1.14,14
+A. Palaversa,AntePalaversa,20,187,79,Croatia,GetafeCF,71,83,SUB,A,1.25,14
+A. Palaversa,AntePalaversa,20,187,79,Croatia,GetafeCF,71,83,SUB,A,1.26,14
+B. Šutalo,BoškoŠutalo,60,188,72,Croatia,Atalanta,71,82,SUB,D,1.1549295774647887,5
+B. Šutalo,BoškoŠutalo,60,188,72,Croatia,Atalanta,71,82,SUB,D,1.1549295774647887,4
